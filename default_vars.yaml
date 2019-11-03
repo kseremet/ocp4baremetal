@@ -13,6 +13,11 @@ coreos_inst_image_file: rhcos-4.2.0-x86_64-metal-bios.raw.gz
 coreos_inst_ignition_dir: install_dir
 otherinstall_dir: install_dir
 
+network_utility_vm_template: CentOS-7-x86_64-1901
+network_utility_vm_memory: 4GiB
+network_utility_vm_cpus: 2
+netmask: 255.255.255.0
+gateway: 192.168.192.250
 
 ovirt_url: "https://rhev-man.lp.int/ovirt-engine/api"
 ovirt_username: ""
