@@ -21,9 +21,9 @@
 
   - name: fact for ips
     set_fact:
-      master_ip_addresses: "{{ master_ips.split(',') }}"
-      worker_ip_addresses: "{{ worker_ips.split(',') }}"
-      bootstrap_ip_addresses: "{{ bootstrap_ip.split(',') }}"
+      master_ip_addresses: "{{ ocp_master_ips.split(',') }}"
+      worker_ip_addresses: "{{ ocp_worker_ips.split(',') }}"
+      bootstrap_ip_addresses: "{{ ocp_bootstrap_ip.split(',') }}"
 
   - name: create bootstrap vm
     import_tasks: create_ovirt_vms.yaml
@@ -34,7 +34,7 @@
   - name: create master vms
     import_tasks: create_ovirt_vms.yaml 
     vars:
-      vm_name_prefix: "{{ vm_master_name_prefix }}"
+      vm_name_prefix: "{{ ocp_master_vm_name_prefix }}"
       number_of_vms: "{{ ocp_master_vm_count }}"
       cpus: "{{ ocp_master_vm_cpus }}"
       memory: "{{ ocp_master_vm_memory }}"
@@ -44,7 +44,7 @@
   - name: create worker vms
     import_tasks: create_ovirt_vms.yaml
     vars:
-      vm_name_prefix: "{{ vm_worker_name_prefix }}"
+      vm_name_prefix: "{{ ocp_master_vm_name_prefix }}"
       number_of_vms: "{{ ocp_worker_vm_count }}"
       cpus: "{{ ocp_worker_vm_cpus }}"
       memory: "{{ ocp_worker_vm_memory }}"
