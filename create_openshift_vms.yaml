@@ -3,10 +3,6 @@
   hosts: localhost
   gather_facts: true
   vars:
-    vm_name_prefix: "{{ ocp_master_name_prefix }}"
-    memory: "{{ ocp_master_vm_memory }}"
-    number_of_vms: "{{ ocp_master_vm_count }}"
-    vm_tag: "{{ ocp_master_vm_tag }}"
     vm_dns_domain: "{{ ocp_master_vm_dns_domain }}"
     is_stateless: False
     vm_disks: "{{ ocp_master_disks }}"
@@ -40,6 +36,9 @@
     vars:
       vm_name_prefix: "{{ vm_master_name_prefix }}"
       number_of_vms: "{{ ocp_master_vm_count }}"
+      cpus: "{{ ocp_master_vm_cpus }}"
+      memory: "{{ ocp_master_vm_memory }}"
+      vm_tag: "{{ ocp_master_vm_tag }}"
       node_role: master
 
   - name: create worker vms
@@ -47,6 +46,9 @@
     vars:
       vm_name_prefix: "{{ vm_worker_name_prefix }}"
       number_of_vms: "{{ ocp_worker_vm_count }}"
+      cpus: "{{ ocp_worker_vm_cpus }}"
+      memory: "{{ ocp_worker_vm_memory }}"
+      vm_tag: "{{ ocp_worker_vm_tag }}"
       node_role: worker
  
   - name: Fail here
