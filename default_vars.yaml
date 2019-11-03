@@ -18,6 +18,7 @@ network_utility_vm_memory: 4GiB
 network_utility_vm_cpus: 2
 netmask: 255.255.255.0
 gateway: 192.168.191.250
+dns_servers: 8.8.8.8
 
 ovirt_url: "https://rhev-man.lp.int/ovirt-engine/api"
 ovirt_username: ""
