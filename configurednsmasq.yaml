@@ -3,46 +3,50 @@
     name: bertvv.hosts
   vars:
     hosts_entries:
-      - name: "apps.{{ cluster_name }}.{{ domain_name }}"
-        ip: "{{ haproxyip }}"
+      - name: "apps.{{ ocp_cluster_name }}.{{ domain_name }}"
+        ip: "{{ ansible_default_ipv4.address }}"
       - name: "{{ cluster_name }}.{{ domain_name }}"
-        ip: "{{ haproxyip }}"
+        ip: "{{ ansible_default_ipv4.address }}"
+        
 - name: configure dnsmasq
   include_role:
     name: bertvv.dnsmasq
   vars:
-    dnsmasq_domain: "{{ cluster_name }}.{{ domain_name }}"
+    dnsmasq_domain: "{{ ocp_cluster_name }}.{{ domain_name }}"
     dnsmasq_interface:  eth0
     dnsmasq_dhcp_ranges:
       - start_addr: "{{ start_addr }}"
         end_addr: "{{ end_addr }}"
         lease_time: '10h'
     dnsmasq_srv_hosts:
-      - name: "_etcd-server-ssl._tcp.{{ cluster_name }}.{{ domain_name }}"
-        target: etcd-0.{{ cluster_name }}.{{ domain_name }}
+      - name: "_etcd-server-ssl._tcp.{{ ocp_cluster_name }}.{{ domain_name }}"
+        target: etcd-0.{{ ocp_cluster_name }}.{{ domain_name }}
         port: 2380
         priority: 0
         weight: 10
-      - name: "_etcd-server-ssl._tcp.{{ cluster_name }}.{{ domain_name }}"
-        target: etcd-1.{{ cluster_name }}.{{ domain_name }}
+      - name: "_etcd-server-ssl._tcp.{{ ocp_cluster_name }}.{{ domain_name }}"
+        target: etcd-1.{{ ocp_cluster_name }}.{{ domain_name }}
         port: 2380
         priority: 0
         weight: 10
-      - name: "_etcd-server-ssl._tcp.{{ cluster_name }}.{{ domain_name }}"
-        target: etcd-2.{{ cluster_name }}.{{ domain_name }}
+      - name: "_etcd-server-ssl._tcp.{{ ocp_cluster_name }}.{{ domain_name }}"
+        target: etcd-2.{{ ocp_cluster_name }}.{{ domain_name }}
         port: 2380
         priority: 0
         weight: 10
+        
 - name : Addlines for pxeboot to dnsmasq
   lineinfile:
     path: /etc/dnsmasq.conf
     line: pxe-service=x86PC, "install coreos", pxelinux
     state: present
+    
 - name : Addlines for pxeboot to dnsmasq
   lineinfile:
     path: /etc/dnsmasq.conf
     line: enable-tftp
     state: present
+    
 - name : Addlines for pxeboot to dnsmasq
   lineinfile:
     path: /etc/dnsmasq.conf
@@ -58,28 +62,26 @@
 - name : Addlines for reverse
   lineinfile:
     path: /etc/dnsmasq.conf
-    line: "server=/{{ reverseipdnsmasq }}/{{ haproxyip }}"
+    line: "server=/{{ reverseipdnsmasq }}/{{ ansible_default_ipv4.address }}"
 
 - name : Addlines for local directive
   lineinfile:
     path: /etc/dnsmasq.conf
-    line: "local=/{{ cluster_name }}.{{ domain_name }}/"
- 
+    line: "local=/{{ ocp_cluster_name }}.{{ domain_name }}/"
 
 - name : Addlines for wildcard to dnsmasq
   lineinfile:
     path: /etc/dnsmasq.conf
-    line: "address=/apps.{{ cluster_name }}.{{ domain_name }}/{{ haproxyip }}"
+    line: "address=/apps.{{ ocp_cluster_name }}.{{ domain_name }}/{{ ansible_default_ipv4.address }}"
     state: present
 
 - name : Addlines for router to dnsmasq
   lineinfile:
     path: /etc/dnsmasq.conf
-    line: "dhcp-option=3,{{ routerip }}"
+    line: "dhcp-option=3,{{ ansible_default_ipv4.gateway }}"
     state: present
 
 - name : Restart dnsmasq
   service:
     name: dnsmasq
     state: restarted
-
