@@ -36,6 +36,7 @@
         nic_ip_address: "{{ ocp_network_utility_ip }}"
         nic_netmask: "{{ netmask }}"
         nic_gateway: "{{ gateway }}"
+        dns_servers: "{{ dns_servers }}"
         host_name: "{{ network_utility_vm_name }}.{{ vm_dns_domain }}"
         user_name: root
         authorized_ssh_keys: "{{ authorized_ssh_keys }}"
@@ -57,7 +58,7 @@
     vm_dns_domain: "{{ ocp_master_vm_dns_domain }}"
   vars_files:
   - default_vars.yaml
-
+  tasks:
   - import_tasks: installtfp.yaml
 
   - name: configure dnsmasq
