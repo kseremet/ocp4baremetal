@@ -21,7 +21,7 @@ ocp_master_vm_count: 3
 master_ips: 192.168.191.220,192.168.191.221,192.168.191.218
 vm_master_name_prefix: asocp42master
 vm_worker_name_prefix: asocp42worker
-ocp_master_vm_tag: asocp42master
+#ocp_master_vm_tag: asocp42master
 ocp_worker_vm_count: 2
 worker_ips: 192.168.191.217,192.168.191.216
 bootstrap_ip: 192.168.191.219
@@ -34,7 +34,7 @@ nic_profile_name: vlan_301
 #vm_disk_size: 90GiB
 disk_interface: virtio
 vm_storage_domain: data_disk3
-vm_tag: asocp42test
+#vm_tag: asocp42test
 
 install_config_file: install-config.yaml
 
