@@ -21,9 +21,6 @@
 
   - name: Login to RHV
     ovirt_auth:
-      url: "{{ ovirt_url }}"
-      username: "{{ ovirt_username }}"
-      password: "{{ ovirt_password }}"
       insecure: true
 
   - name: Fail here
