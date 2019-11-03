@@ -5,7 +5,6 @@
   vars:
     vm_dns_domain: "{{ ocp_master_vm_dns_domain }}"
     is_stateless: False
-    vm_disks: "{{ ocp_master_disks }}"
     node_role: ""
   vars_files:
   - myvars.yaml
@@ -38,7 +37,6 @@
       number_of_vms: "{{ ocp_master_vm_count }}"
       cpus: "{{ ocp_master_vm_cpus }}"
       memory: "{{ ocp_master_vm_memory }}"
-      vm_tag: "{{ ocp_master_vm_tag }}"
       node_role: master
 
   - name: create worker vms
@@ -48,7 +46,6 @@
       number_of_vms: "{{ ocp_worker_vm_count }}"
       cpus: "{{ ocp_worker_vm_cpus }}"
       memory: "{{ ocp_worker_vm_memory }}"
-      vm_tag: "{{ ocp_worker_vm_tag }}"
       node_role: worker
  
   - name: Fail here
@@ -56,8 +53,6 @@
     
   - name: install haproxy
     include_tasks: haproxy.yaml
-
-
 
   - name: update host dnsmasq for dhcp options to fix ips
     import_tasks: update_pxeboot_dnsmasq.yaml
