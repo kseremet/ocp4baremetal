@@ -7,7 +7,7 @@
     is_stateless: False
     node_role: ""
   vars_files:
-  - myvars.yaml
+  - default_vars.yaml
   tasks:
 #  - import_tasks: installtfp.yaml
 
