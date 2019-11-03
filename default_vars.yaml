@@ -35,7 +35,7 @@ ocp_master_vm_dns_domain: "{{ domain_name }}"
 cluster: RedHat
 ocp_master_vm_memory: "4GiB"
 cpus: 4
-nic_profile_name: vlan_301
+nic_profile_name: external_provider_vlan_302
 #vm_disk_size: 90GiB
 disk_interface: virtio
 vm_storage_domain: data_disk3
