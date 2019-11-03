@@ -14,10 +14,10 @@
   vars_files:
   - myvars.yaml
   tasks:
-  - import_tasks: installtfp.yaml
+#  - import_tasks: installtfp.yaml
 
-  - name: configure dnsmasq
-    include_tasks: configurednsmasq.yaml
+#  - name: configure dnsmasq
+#    include_tasks: configurednsmasq.yaml
 
   - name: Login to RHV
     ovirt_auth:
