@@ -24,7 +24,7 @@
     groups: "{{ node_role }}"
   with_sequence: count={{ number_of_vms }}
 
-- name: Add disks
+- name: Add extra disk
   ovirt_disk:
     auth: "{{ ovirt_auth }}"
     bootable: yes
@@ -34,6 +34,8 @@
     storage_domain: "{{ vm_storage_domain }}"
     interface: "{{  disk_interface }}"
   with_sequence: count={{ number_of_vms }}
+  when: vm_disk_size is defined
+  
 - ovirt_tag:
     auth: "{{ ovirt_auth }}"
     name: "{{ vm_tag }}"
@@ -41,3 +43,4 @@
     vms:
       - "{{ vm_name_prefix }}{{ item }}"
   with_sequence: count={{ number_of_vms }}
+  when: vm_tag is defined
