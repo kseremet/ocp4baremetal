@@ -23,8 +23,6 @@
     ovirt_auth:
       insecure: true
 
-  - name: Fail here
-    fail:
   - name: fact for ips
     set_fact:
       master_ip_addresses: "{{ master_ips.split(',') }}"
@@ -50,7 +48,10 @@
       vm_name_prefix: "{{ vm_worker_name_prefix }}"
       number_of_vms: "{{ ocp_worker_vm_count }}"
       node_role: worker
-  
+ 
+  - name: Fail here
+    fail:
+    
   - name: install haproxy
     include_tasks: haproxy.yaml
 
