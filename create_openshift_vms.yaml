@@ -3,7 +3,7 @@
   hosts: localhost
   gather_facts: true
   vars:
-    vm_name_prefix: "{{ ocp_master_vm_name }}"
+    vm_name_prefix: "{{ ocp_master_name_prefix }}"
     memory: "{{ ocp_master_vm_memory }}"
     number_of_vms: "{{ ocp_master_vm_count }}"
     vm_tag: "{{ ocp_master_vm_tag }}"
@@ -11,10 +11,9 @@
     is_stateless: False
     vm_disks: "{{ ocp_master_disks }}"
     node_role: ""
+  vars_files:
+  - myvars.yaml
   tasks:
-  - name: include variables
-    include_vars: myvars.yaml
-
   - import_tasks: installtfp.yaml
 
   - name: configure dnsmasq
@@ -27,6 +26,8 @@
       password: "{{ ovirt_password }}"
       insecure: true
 
+  - name: Fail here
+    fail:
   - name: fact for ips
     set_fact:
       master_ip_addresses: "{{ master_ips.split(',') }}"
