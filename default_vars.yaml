@@ -2,7 +2,7 @@ cluster_name: asocp42test
 domain_name: lp.int
 start_addr: 192.168.191.3
 end_addr: 192.168.191.253
-haproxyip: 192.168.191.178
+haproxyip: 192.168.191.176
 reverseipdnsmasq: 1.168.192.in-addr.arpa
 httpd_ip: "{{ haproxyip }}"
 webport: 9000
@@ -17,7 +17,7 @@ network_utility_vm_template: CentOS-7-x86_64-1901
 network_utility_vm_memory: 4GiB
 network_utility_vm_cpus: 2
 netmask: 255.255.255.0
-gateway: 192.168.192.250
+gateway: 192.168.191.250
 
 ovirt_url: "https://rhev-man.lp.int/ovirt-engine/api"
 ovirt_username: ""
@@ -35,7 +35,7 @@ ocp_master_vm_dns_domain: "{{ domain_name }}"
 cluster: RedHat
 ocp_master_vm_memory: "4GiB"
 cpus: 4
-nic_profile_name: anand
+nic_profile_name: vlan_301
 #vm_disk_size: 90GiB
 disk_interface: virtio
 vm_storage_domain: data_disk3
