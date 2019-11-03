@@ -24,42 +24,41 @@ defaults
 
   
 # 6443 points to control plan
-frontend {{ cluster_name }}-api *:6443
+frontend {{ ocp_cluster_name }}-api *:6443
   default_backend master-api
 backend master-api
   balance source
-  server bootstrap1 bootstrap1.{{ cluster_name }}.{{ domain_name }}:6443 check 
+  server bootstrap {{ ocp_cluster_name }}-bootstrap.{{ ocp_cluster_name }}.{{ domain_name }}:6443 check 
 {% for server in groups.master %}
-  server {{ server }} {{ server }}.{{ cluster_name }}.{{ domain_name }}:6443 check
+  server {{ server }} {{ server }}.{{ ocp_cluster_name }}.{{ domain_name }}:6443 check
 {% endfor %}    
 
 
 # 22623 points to control plane
-frontend {{ cluster_name }}-mapi *:22623
+frontend {{ ocp_cluster_name }}-mapi *:22623
   default_backend master-mapi
 backend master-mapi
   balance source
-  server bootstrap1 bootstrap1.{{ cluster_name }}.{{ domain_name }}:22623 check
+  server bootstrap {{ ocp_cluster_name }}-bootstrap.{{ cluster_name }}.{{ domain_name }}:22623 check
 {% for server in groups.master %}
-  server {{ server }} {{ server }}.{{ cluster_name }}.{{ domain_name }}:22623 check
+  server {{ server }} {{ server }}.{{ ocp_cluster_name }}.{{ domain_name }}:22623 check
 {% endfor %}
 
-
 # 80 points to worker nodes
-frontend {{ cluster_name }}-http *:80
+frontend {{ ocp_cluster_name }}-http *:80
   default_backend ingress-http
 backend ingress-http
   balance source
 {% for server in groups.worker  %}
-  server {{ server }} {{ server }}.{{ cluster_name }}.{{ domain_name }}:80 check
+  server {{ server }} {{ server }}.{{ ocp_cluster_name }}.{{ domain_name }}:80 check
 {% endfor %}
 
 
 # 443 points to worker nodes
-frontend {{ cluster_name }}-https *:443
+frontend {{ ocp_cluster_name }}-https *:443
   default_backend infra-https
 backend infra-https
   balance source
 {% for server in groups.worker  %}
-  server {{ server }} {{ server }}.{{ cluster_name }}.{{ domain_name }}:443 check
+  server {{ server }} {{ server }}.{{ ocp_cluster_name }}.{{ domain_name }}:443 check
 {% endfor %}
