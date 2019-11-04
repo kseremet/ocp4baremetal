@@ -1,0 +1,66 @@
+---
+- name: Create a new VM for network services
+  hosts: localhost
+  gather_facts: true
+  vars:
+    vm_dns_domain: "{{ ocp_master_vm_dns_domain }}"
+    network_utility_vm_name: "{{ ocp_cluster_name }}-utility"
+    is_stateless: False
+    node_role: ""
+  vars_files:
+  - default_vars.yaml
+  tasks:
+  - name: Login to RHV
+    ovirt_auth:
+      insecure: true
+
+  - name: Create a new VM for network services
+    ovirt_vm:
+      auth: "{{ ovirt_auth }}"
+      name: "{{ network_utility_vm_name }}"
+      cluster: "{{ cluster }}"
+      template: "{{ network_utility_vm_template }}"
+      memory: "{{ network_utility_vm_memory }}"
+      cpu_cores: "{{ network_utility_vm_cpus }}"
+      type: server
+      state: running
+      wait: true
+      nics:
+      - name: nic1
+        profile_name: "{{ nic_profile_name }}"
+      cloud_init_persist: yes
+      cloud_init:
+        nic_boot_protocol: static
+        nic_name: eth0
+        nic_on_boot: true
+        nic_ip_address: "{{ ocp_network_utility_ip }}"
+        nic_netmask: "{{ netmask }}"
+        nic_gateway: "{{ gateway }}"
+        dns_servers: "{{ dns_servers }}"
+        host_name: "{{ network_utility_vm_name }}.{{ vm_dns_domain }}"
+        user_name: root
+        authorized_ssh_keys: "{{ authorized_ssh_keys }}"
+        custom_script: |
+          runcmd:
+            - [ yum, remove, -y, cloud-init ]
+
+  - name: Add network services VM into Ansible's run-time inventory
+    add_host:
+      hostname: "{{ network_utility_vm_name }}"
+      groups: utility
+      ansible_host: "{{ ocp_network_utility_ip }}"
+      ansible_user: root
+
+- name: Install Network Services
+  hosts: utility
+  gather_facts: true
+  vars:
+    vm_dns_domain: "{{ ocp_master_vm_dns_domain }}"
+  vars_files:
+  - default_vars.yaml
+  tasks:
+  - import_tasks: installtfp.yaml
+
+  - name: configure dnsmasq
+    include_tasks: configurednsmasq.yaml
+
