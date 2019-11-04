@@ -2,10 +2,9 @@ domain_name: lp.int
 start_addr: 192.168.191.3
 end_addr: 192.168.191.253
 reverseipdnsmasq: 1.168.192.in-addr.arpa
-httpd_ip: "{{ haproxyip }}"
 webport: 9000
 installer_kernel: rhcos-4.2.0-x86_64-installer-kernel
-initramfs_path: rhcos-4.2.0-x86_64-installer-initramfs.img
+initramfs_file: rhcos-4.2.0-x86_64-installer-initramfs.img
 coreos_inst_install_dev: vda
 coreos_inst_image_file: rhcos-4.2.0-x86_64-metal-bios.raw.gz
 coreos_inst_ignition_dir: install_dir

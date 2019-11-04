@@ -64,3 +64,6 @@
   - name: configure dnsmasq
     include_tasks: configurednsmasq.yaml
 
+  - name: install and configure httpd
+    include_tasks: install-httpd.yaml
+
