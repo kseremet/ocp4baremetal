@@ -1,8 +1,6 @@
-cluster_name: asocp42test
 domain_name: lp.int
 start_addr: 192.168.191.3
 end_addr: 192.168.191.253
-haproxyip: 192.168.191.176
 reverseipdnsmasq: 1.168.192.in-addr.arpa
 httpd_ip: "{{ haproxyip }}"
 webport: 9000
