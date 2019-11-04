@@ -35,4 +35,4 @@
   lineinfile:
     path: /etc/hosts
     regexp: "api-int.{{ ocp_cluster_name }}.{{ domain_name }}"
-    line: "{{ haproxyip }}  lb.{{ ocp_cluster_name }}.{{ domain_name }}  api.{{ ocp_cluster_name }}.{{ domain_name }} api-int.{{ ocp_cluster_name }}.{{ domain_name }}"
+    line: "{{ ansible_default_ipv4.address }}  lb.{{ ocp_cluster_name }}.{{ domain_name }}  api.{{ ocp_cluster_name }}.{{ domain_name }} api-int.{{ ocp_cluster_name }}.{{ domain_name }}"
