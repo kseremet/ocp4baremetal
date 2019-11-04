@@ -30,6 +30,13 @@
     enabled: no
   ignore_errors: yes
 
+- name: Download OpenShift installer
+  get_url:
+    url: "{{ installer_artifacts_url }}/openshift-install"
+    dest: "/usr/local/bin/openshift-install"
+    mode: 0755
+    validate_certs: no
+
 - name: Download initramfs.img
   get_url:
     url: "{{ installer_artifacts_url }}/{{ initramfs_file }}"

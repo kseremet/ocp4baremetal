@@ -28,7 +28,7 @@ frontend {{ ocp_cluster_name }}-api *:6443
   default_backend master-api
 backend master-api
   balance source
-  server bootstrap {{ ocp_cluster_name }}-bootstrap.{{ ocp_cluster_name }}.{{ domain_name }}:6443 check 
+  server bootstrap {{ ocp_cluster_name }}-bootstrap1.{{ ocp_cluster_name }}.{{ domain_name }}:6443 check 
 {% for server in groups.master %}
   server {{ server }} {{ server }}.{{ ocp_cluster_name }}.{{ domain_name }}:6443 check
 {% endfor %}    
@@ -39,7 +39,7 @@ frontend {{ ocp_cluster_name }}-mapi *:22623
   default_backend master-mapi
 backend master-mapi
   balance source
-  server bootstrap {{ ocp_cluster_name }}-bootstrap.{{ ocp_cluster_name }}.{{ domain_name }}:22623 check
+  server bootstrap {{ ocp_cluster_name }}-bootstrap1.{{ ocp_cluster_name }}.{{ domain_name }}:22623 check
 {% for server in groups.master %}
   server {{ server }} {{ server }}.{{ ocp_cluster_name }}.{{ domain_name }}:22623 check
 {% endfor %}

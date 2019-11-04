@@ -1,46 +1,28 @@
-- hosts: localhost
-  connection: local
-  gather_facts: false
-  vars:
-    install_config: "{{ lookup('file', install_config_file) | from_yaml }}"
-    ocp_cluster_name: "{{ install_config.metadata.name }}"
-    master_ign_file: "{{ ocp_cluster_name }}/master.ign"
-    worker_ign_file: "{{ ocp_cluster_name }}/worker.ign"
-    bootstrap_ign_file: "{{ ocp_cluster_name }}/bootstrap.ign"
-    http_document_root: "/var/www/html/{{ coreos_inst_ignition_dir }}"
-  tasks:
-    - name: include variables
-      include_vars: myvars.yaml
-
-    - name: Create new cluster's directory
-      file:
-        path: "{{ ocp_cluster_name }}"
-        state: directory
-
-    - name: Put install-config.yaml into cluster directory
-      copy:
-        content: "{{ install_config | to_nice_yaml(indent=2) }}"
-        dest: "{{ ocp_cluster_name }}/install-config.yaml"
-
-    - name: Create ignition configs of new cluster
-      command: ./files/openshift-install create ignition-configs --dir={{ ocp_cluster_name }}
-
-    - set_fact:
-        master_ip_addresses: "{{ master_ips.split(',') }}"
-        worker_ip_addresses: "{{ worker_ips.split(',') }}"
-        bootstrap_ip_addresses: "{{ bootstrap_ip.split(',') }}"
-
 - name: Prepare HTTP server
   hosts: utility
   gather_facts: yes
   vars:
-    install_config: "{{ lookup('file', install_config_file) | from_yaml }}"
+    master_ign_file: "{{ ocp_cluster_name }}/master.ign"
+    worker_ign_file: "{{ ocp_cluster_name }}/worker.ign"
     bootstrap_ign_file: "{{ ocp_cluster_name }}/bootstrap.ign"
     http_document_root: "/var/www/html/{{ coreos_inst_ignition_dir }}"
     bootstrap_ignition_config_url: "http://{{ ansible_default_ipv4.address }}:{{ webport }}/{{ coreos_inst_ignition_dir }}/bootstrap.ign"
   tasks: 
   - name: include variables
     include_vars: default_vars.yaml
+
+  - name: Create new cluster's directory
+    file:
+      path: "{{ ocp_cluster_name }}"
+      state: directory
+
+  - name: Put install-config.yaml into cluster directory
+    template:
+      src: templates/install-config.j2
+      dest: "{{ ocp_cluster_name }}/install-config.yaml"
+
+  - name: Create ignition configs of new cluster
+    command: openshift-install create ignition-configs --dir={{ ocp_cluster_name }}
 
   - name: Copy bootstrap ignition file to http server
     copy:
@@ -62,3 +44,4 @@
       url: "{{ bootstrap_ignition_config_url }}"
       return_content: no
       status_code: 200
+    delegate_to: localhost
