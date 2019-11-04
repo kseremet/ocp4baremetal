@@ -5,7 +5,7 @@
     hosts_entries:
       - name: "apps.{{ ocp_cluster_name }}.{{ domain_name }}"
         ip: "{{ ansible_default_ipv4.address }}"
-      - name: "{{ cluster_name }}.{{ domain_name }}"
+      - name: "{{ ocp_cluster_name }}.{{ domain_name }}"
         ip: "{{ ansible_default_ipv4.address }}"
         
 - name: configure dnsmasq
