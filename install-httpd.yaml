@@ -34,13 +34,16 @@
   get_url:
     url: "{{ installer_artifacts_url }}/{{ initramfs_file }}"
     dest: "/var/www/html/{{ otherinstall_dir }}/{{ initramfs_file }}"
+    validate_certs: no
 
 - name: Download metal bios
   get_url:
     url: "{{ installer_artifacts_url }}/{{ coreos_inst_image_file }}"
     dest: "/var/www/html/{{ otherinstall_dir }}/{{ coreos_inst_image_file }}"
+    validate_certs: no
 
 - name: Download installer_kernel
   get_url:
     url: "{{ installer_artifacts_url }}/{{ installer_kernel }}"
     dest: "/var/www/html/{{ otherinstall_dir }}/{{ installer_kernel }}"
+    validate_certs: no
