@@ -26,16 +26,19 @@
 
   - name: Copy bootstrap ignition file to http server
     copy:
+      remote_src: yes
       src: "{{ bootstrap_ign_file }}"
       dest: "{{ http_document_root }}/bootstrap.ign"
 
   - name: Copy master ignition file to http server
     copy:
+      remote_src: yes
       src: "{{ ocp_cluster_name }}/master.ign"
       dest: "{{ http_document_root }}/master.ign"
 
   - name: Copy master ignition file to http server
     copy:
+      remote_src: yes
       src: "{{ ocp_cluster_name }}/worker.ign"
       dest: "{{ http_document_root }}/worker.ign"
   
