@@ -28,6 +28,7 @@
     name: firewalld
     state: stopped
     enabled: no
+  ignore_errors: yes
 
 - name: Download initramfs.img
   get_url:
