@@ -48,3 +48,19 @@
       return_content: no
       status_code: 200
     delegate_to: localhost
+
+  - name: Power ON bootstrap vm
+    ovirt_vm:
+      state: running
+      name: "{{ ocp_cluster_name }}-bootstrap1"
+    delegate_to: localhost
+  
+  - name: Wait for bootstrap machine to be reachable over network
+    wait_for_connection:
+      delay: 60
+      timeout: 300
+    delegate_to: "{{ ocp_cluster_name }}-bootstrap1"
+
+  - name: Wait for bootstrap complete
+    command: openshift-install --dir={{ cluster_name }} wait-for bootstrap-complete
+    register: result

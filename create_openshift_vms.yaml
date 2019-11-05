@@ -26,6 +26,7 @@
       number_of_vms: 1
       cpus: "{{ ocp_master_vm_cpus }}"
       memory: "{{ ocp_master_vm_memory }}"
+      ip_addresses: "{{ bootstrap_ip_addresses }}"
       node_role: bootstrap
 
   - name: create master vms
@@ -35,6 +36,7 @@
       number_of_vms: "{{ ocp_master_vm_count }}"
       cpus: "{{ ocp_master_vm_cpus }}"
       memory: "{{ ocp_master_vm_memory }}"
+      ip_addresses: "{{ master_ip_addresses }}"
       node_role: master
 
   - name: create worker vms
@@ -44,5 +46,6 @@
       number_of_vms: "{{ ocp_worker_vm_count }}"
       cpus: "{{ ocp_worker_vm_cpus }}"
       memory: "{{ ocp_worker_vm_memory }}"
+      ip_addresses: "{{ worker_ip_addresses }}"
       node_role: worker
  

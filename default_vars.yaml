@@ -34,7 +34,7 @@ cluster: RedHat
 ocp_master_vm_memory: "4GiB"
 cpus: 4
 nic_profile_name: vlan_301
-#vm_disk_size: 90GiB
+vm_disk_size: 30GiB
 disk_interface: virtio
 vm_storage_domain: data_disk3
 #vm_tag: asocp42test
