@@ -48,29 +48,17 @@
       return_content: no
       status_code: 200
     delegate_to: localhost
-
-  - name: Power ON bootstrap vm
-    ovirt_vm:
-      state: running
-      name: "{{ ocp_cluster_name }}-bootstrap1"
-    delegate_to: localhost
   
-- name: Wait for bootstrap machine
-  hosts: bootstrap
-  gather_facts: no
-  tasks:
-  - debug: var=hostvars[inventory_hostname]
-  - fail:
-  - name: Wait for bootstrap machine to be reachable over network
-    wait_for_connection:
-      delay: 60
-      timeout: 300
-
-- name: Power on master and worker vms
+- name: Power on OpenShift vms
   hosts: localhost
   connection: local
   gather_facts: no
   tasks: 
+  - name: Power ON bootstrap vm
+    ovirt_vm:
+      state: running
+      name: "{{ ocp_cluster_name }}-bootstrap1"
+    
   - name: Power ON master vms
     ovirt_vm:
       state: running
