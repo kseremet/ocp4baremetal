@@ -59,6 +59,15 @@
   vars_files:
   - default_vars.yaml
   tasks:
+  - name: Configure proxy for yum
+    ini_file:
+      path: /etc/yum.conf
+      section: main
+      option: proxy
+      value: "{{ http_proxy }}"
+      backup: yes
+    when: http_proxy is defined and http_proxy != ""
+
   - import_tasks: installtfp.yaml
 
   - name: configure dnsmasq
