@@ -14,10 +14,6 @@
   vars:
     dnsmasq_domain: "{{ ocp_cluster_name }}.{{ domain_name }}"
     dnsmasq_interface:  eth0
-    dnsmasq_dhcp_ranges:
-      - start_addr: "{{ start_addr }}"
-        end_addr: "{{ end_addr }}"
-        lease_time: '10h'
     dnsmasq_srv_hosts:
       - name: "_etcd-server-ssl._tcp.{{ ocp_cluster_name }}.{{ domain_name }}"
         target: etcd-0.{{ ocp_cluster_name }}.{{ domain_name }}
@@ -34,7 +30,13 @@
         port: 2380
         priority: 0
         weight: 10
-        
+
+- name : Configure static dhcp range
+  lineinfile:
+    path: /etc/dnsmasq.conf
+    line: dhcp-range={{ ansible_default_ipv4.network }},static
+    state: present
+
 - name : Addlines for pxeboot to dnsmasq
   lineinfile:
     path: /etc/dnsmasq.conf

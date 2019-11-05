@@ -61,6 +61,28 @@
       timeout: 300
     delegate_to: "{{ ocp_cluster_name }}-bootstrap1"
 
+  - name: Power ON master vms
+    ovirt_vm:
+      state: running
+      name: "{{ ocp_cluster_name }}-master{{ item }}"
+    with_sequence: start=0 count={{ ocp_master_vm_count }}
+    delegate_to: localhost
+
+  - name: Power ON worker vms
+    ovirt_vm:
+      state: running
+      name: "{{ ocp_cluster_name }}-worker{{ item }}"
+    with_sequence: start=0 count={{ ocp_worker_vm_count }}
+    delegate_to: localhost
+
   - name: Wait for bootstrap complete
     command: openshift-install --dir={{ cluster_name }} wait-for bootstrap-complete
     register: result
+  
+  - debug: var=result
+
+  - name: Wait for installation complete
+    command: openshift-install --dir={{ cluster_name }} wait-for install-complete
+    register: result
+
+  - debug: var=result
