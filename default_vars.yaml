@@ -32,7 +32,7 @@ cpus: 4
 nic_profile_name: vlan_301
 vm_disk_size: 30GiB
 disk_interface: virtio
-vm_storage_domain: data_disk3
+vm_storage_domain: data_disk4
 
 install_config_file: install-config.yaml
 
