@@ -55,31 +55,54 @@
       name: "{{ ocp_cluster_name }}-bootstrap1"
     delegate_to: localhost
   
+- name: Wait for bootstrap machine
+  hosts: bootstrap
+  gather_facts: yes
+  tasks: 
   - name: Wait for bootstrap machine to be reachable over network
     wait_for_connection:
       delay: 60
       timeout: 300
-    delegate_to: localhost
 
+- name: Power on master and worker vms
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks: 
   - name: Power ON master vms
     ovirt_vm:
       state: running
       name: "{{ ocp_cluster_name }}-master{{ item }}"
     with_sequence: count={{ ocp_master_vm_count }}
-    delegate_to: localhost
 
   - name: Power ON worker vms
     ovirt_vm:
       state: running
       name: "{{ ocp_cluster_name }}-worker{{ item }}"
     with_sequence: count={{ ocp_worker_vm_count }}
-    delegate_to: localhost
 
+- name: Wait for OpenShift installation to complete
+  hosts: utility
+  gather_facts: yes
+  environment:
+    KUBECONFIG: "{{ ocp_cluster_name }}/auth/kubeconfig"
+  tasks:
   - name: Wait for bootstrap complete
     command: openshift-install --dir={{ ocp_cluster_name }} wait-for bootstrap-complete
     register: result
   
   - debug: var=result
+
+  - name: Wait for image registry crd to become available
+    command: oc wait --for=condition=Progressing configs.imageregistry.operator.openshift.io --all --timeout=1200s
+    register: result
+    until: result.rc == 0
+    retries: 10
+    delay: 60
+    ignore_errors: yes
+
+  - name: Configure storage for the image registry
+    command: oc patch configs.imageregistry.operator.openshift.io cluster --type merge --patch '{"spec":{"storage":{"emptyDir":{}}}}'
 
   - name: Wait for installation complete
     command: openshift-install --dir={{ ocp_cluster_name }} wait-for install-complete
