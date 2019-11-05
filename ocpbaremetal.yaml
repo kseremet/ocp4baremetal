@@ -57,7 +57,7 @@
   
 - name: Wait for bootstrap machine
   hosts: bootstrap
-  gather_facts: yes
+  gather_facts: no
   tasks: 
   - name: Wait for bootstrap machine to be reachable over network
     wait_for_connection:
