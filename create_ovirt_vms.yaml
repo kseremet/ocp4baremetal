@@ -12,7 +12,7 @@
     boot_devices:
       - hd
       - network
-    state: stopped
+    state: present
     wait: true
     nics:
       - name: nic1

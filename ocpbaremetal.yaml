@@ -76,13 +76,13 @@
     delegate_to: localhost
 
   - name: Wait for bootstrap complete
-    command: openshift-install --dir={{ cluster_name }} wait-for bootstrap-complete
+    command: openshift-install --dir={{ ocp_cluster_name }} wait-for bootstrap-complete
     register: result
   
   - debug: var=result
 
   - name: Wait for installation complete
-    command: openshift-install --dir={{ cluster_name }} wait-for install-complete
+    command: openshift-install --dir={{ ocp_cluster_name }} wait-for install-complete
     register: result
 
   - debug: var=result
