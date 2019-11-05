@@ -37,6 +37,13 @@
     mode: 0755
     validate_certs: no
 
+- name: Download OpenShift client
+  get_url:
+    url: "{{ installer_artifacts_url }}/oc"
+    dest: "/usr/local/bin/oc"
+    mode: 0755
+    validate_certs: no
+
 - name: Download initramfs.img
   get_url:
     url: "{{ installer_artifacts_url }}/{{ initramfs_file }}"
