@@ -21,6 +21,12 @@
       src: templates/install-config.j2
       dest: "{{ ocp_cluster_name }}/install-config.yaml"
 
+  - name: Backup install-config.yaml
+    copy:
+      src: "{{ ocp_cluster_name }}/install-config.yaml"
+      dest: install-config.yaml
+      remote_src: yes
+
   - name: Create ignition configs of new cluster
     command: openshift-install create ignition-configs --dir={{ ocp_cluster_name }}
 

@@ -21,7 +21,7 @@ platform:
   none: {}
 pullSecret: '{{ pull_secret }}'
 sshKey: '{{ authorized_ssh_keys }}'
-{% if http_proxy is defined %}
+{% if http_proxy is defined and http_proxy|length %}
 {% set net_mask = ansible_default_ipv4.network + "/" + ansible_default_ipv4.netmask  %}
 proxy:
   httpProxy: {{ http_proxy }}
