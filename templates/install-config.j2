@@ -21,3 +21,10 @@ platform:
   none: {}
 pullSecret: '{{ pull_secret }}'
 sshKey: '{{ authorized_ssh_keys }}'
+{% if http_proxy %}
+{% set net_mask = ansible_default_ipv4.network + "/" + ansible_default_ipv4.netmask"  %}
+proxy:
+  httpProxy: {{ http_proxy }}
+  httpsProxy: {{ http_proxy }}
+  noProxy: .{{ domain_name }},.{{ ocp_cluster_name }}.{{ domain_name }},{{ net_mask | ipaddr('net') }},localhost,127.0.0.1
+{% endif %}

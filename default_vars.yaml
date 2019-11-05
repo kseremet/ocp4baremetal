@@ -1,6 +1,4 @@
-domain_name: lp.int
-start_addr: 192.168.191.3
-end_addr: 192.168.191.253
+domain_name: example.com
 reverseipdnsmasq: 1.168.192.in-addr.arpa
 webport: 9000
 installer_kernel: rhcos-4.2.0-x86_64-installer-kernel
@@ -24,11 +22,9 @@ ocp_master_vm_count: 3
 master_ips: 192.168.191.220,192.168.191.221,192.168.191.218
 vm_master_name_prefix: asocp42master
 vm_worker_name_prefix: asocp42worker
-#ocp_master_vm_tag: asocp42master
 ocp_worker_vm_count: 2
 worker_ips: 192.168.191.217,192.168.191.216
 bootstrap_ip: 192.168.191.219
-routerip: 192.168.191.250
 ocp_master_vm_dns_domain: "{{ domain_name }}"
 cluster: RedHat
 ocp_master_vm_memory: "4GiB"
@@ -36,8 +32,7 @@ cpus: 4
 nic_profile_name: vlan_301
 vm_disk_size: 30GiB
 disk_interface: virtio
-vm_storage_domain: data_disk3
-#vm_tag: asocp42test
+vm_storage_domain: data_disk4
 
 install_config_file: install-config.yaml
 

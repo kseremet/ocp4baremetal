@@ -84,7 +84,7 @@
   - debug: var=result
 
   - name: Wait for image registry crd to become available
-    command: oc wait --for=condition=Progressing configs.imageregistry.operator.openshift.io --all --timeout=1200s
+    command: oc wait --for=condition=Degraded configs.imageregistry.operator.openshift.io --all --timeout=60s
     register: result
     until: result.rc == 0
     retries: 10
