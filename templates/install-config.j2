@@ -22,7 +22,7 @@ platform:
 pullSecret: '{{ pull_secret }}'
 sshKey: '{{ authorized_ssh_keys }}'
 {% if http_proxy %}
-{% set net_mask = ansible_default_ipv4.network + "/" + ansible_default_ipv4.netmask"  %}
+{% set net_mask = ansible_default_ipv4.network + "/" + ansible_default_ipv4.netmask  %}
 proxy:
   httpProxy: {{ http_proxy }}
   httpsProxy: {{ http_proxy }}
