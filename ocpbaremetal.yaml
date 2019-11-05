@@ -65,14 +65,14 @@
     ovirt_vm:
       state: running
       name: "{{ ocp_cluster_name }}-master{{ item }}"
-    with_sequence: start=0 count={{ ocp_master_vm_count }}
+    with_sequence: start=0 count={{ ocp_master_vm_count | int -1 }}
     delegate_to: localhost
 
   - name: Power ON worker vms
     ovirt_vm:
       state: running
       name: "{{ ocp_cluster_name }}-worker{{ item }}"
-    with_sequence: start=0 count={{ ocp_worker_vm_count }}
+    with_sequence: start=0 count={{ ocp_worker_vm_count | int -1 }}
     delegate_to: localhost
 
   - name: Wait for bootstrap complete
