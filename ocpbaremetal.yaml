@@ -58,7 +58,9 @@
 - name: Wait for bootstrap machine
   hosts: bootstrap
   gather_facts: no
-  tasks: 
+  tasks:
+  - debug: var=hostvars[inventory_hostname]
+  - fail:
   - name: Wait for bootstrap machine to be reachable over network
     wait_for_connection:
       delay: 60
