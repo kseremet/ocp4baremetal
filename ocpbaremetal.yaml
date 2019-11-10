@@ -95,6 +95,14 @@
       name: "{{ ocp_cluster_name }}-bootstrap1"
     delegate_to: localhost
 
+  - name: Approve node CSRs
+    approve_csr:
+      nodes: "{{ ocp_master_vm_count + ocp_worker_vm_count }}"
+      max_time: 20
+      register: result
+      ignore_errors: yes
+  - debug: var=result
+
   - name: Wait for image registry crd to become available
     command: oc wait --for=condition=Degraded configs.imageregistry.operator.openshift.io --all --timeout=60s
     register: result
