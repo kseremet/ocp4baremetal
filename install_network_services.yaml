@@ -83,6 +83,11 @@
         backup: yes
     when: http_proxy is defined and http_proxy != ""
 
+  - name: Enable Epel Repository
+    yum:
+      name: epel-release
+      state: latest
+      
   - import_tasks: installtfp.yaml
 
   - name: configure dnsmasq
