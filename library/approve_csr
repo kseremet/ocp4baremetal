@@ -35,10 +35,10 @@ do
 done
 
 if [ $number_of_ready_nodes -eq $nodes ]; then
-  printf '{"changed": %s, "msg": "%s", "failed": "false", "ready_nodes": "%s", "stdout": "%s"}' "$changed" "$msg" "$number_of_ready_nodes" "$stdout"
+  printf '{"changed": %s, "msg": "%s", "failed": 0, "ready_nodes": "%s", "stdout": "%s"}' "$changed" "$msg" "$number_of_ready_nodes" "$stdout"
   exit 0
 else
   msg="Not all of the nodes become ready in $max_time seconds."
-  printf '{"changed": %s, "msg": "%s", "failed": "true", "ready_nodes": "%s", "stdout": "%s"}' "$changed" "$msg" "$number_of_ready_nodes" "$stdout"
+  printf '{"changed": %s, "msg": "%s", "failed": 1, "ready_nodes": "%s", "stdout": "%s"}' "$changed" "$msg" "$number_of_ready_nodes" "$stdout"
   exit 1
 fi
