@@ -98,7 +98,7 @@
   - name: Approve node CSRs
     approve_csr:
       nodes: "{{ ocp_master_vm_count + ocp_worker_vm_count }}"
-      max_time: 20
+      max_time: 600
       register: result
       ignore_errors: yes
   - debug: var=result
