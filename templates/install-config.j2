@@ -28,3 +28,14 @@ proxy:
   httpsProxy: {{ http_proxy }}
   noProxy: .{{ domain_name }},.{{ ocp_cluster_name }}.{{ domain_name }},{{ net_mask | ipaddr('net') }},localhost,127.0.0.1
 {% endif %}
+{% if mirror_registry is defined and mirror_registry|length %}
+additionalTrustBundle: |
+{{ additional_trust_bundle | indent(2) }}
+imageContentSources:
+- mirrors:
+  - {{ mirror_registry }}/openshift-release-dev/ocp-release
+  source: quay.io/openshift-release-dev/ocp-release
+- mirrors:
+  - {{ mirror_registry }}/openshift-release-dev/ocp-release
+  source: quay.io/openshift-release-dev/ocp-v4.0-art-dev
+{% endif %}
