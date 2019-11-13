@@ -35,7 +35,7 @@
         nic_on_boot: true
         nic_ip_address: "{{ ocp_network_utility_ip }}"
         nic_netmask: "{{ netmask }}"
-        nic_gateway: "{{ gateway }}"
+        nic_gateway: "{{ network_utility_gateway }}"
         dns_servers: "{{ dns_servers }}"
         host_name: "{{ network_utility_vm_name }}.{{ vm_dns_domain }}"
         user_name: root
