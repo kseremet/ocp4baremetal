@@ -30,7 +30,7 @@ proxy:
 {% endif %}
 {% if mirror_registry is defined and mirror_registry|length %}
 additionalTrustBundle: |
-{{ additional_trust_bundle | indent(2) }}
+  {{ additional_trust_bundle | indent(2) }}
 imageContentSources:
 - mirrors:
   - {{ mirror_registry }}/openshift-release-dev/ocp-release
