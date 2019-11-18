@@ -22,7 +22,8 @@
   - name: create bootstrap vm
     import_tasks: create_ovirt_vms.yaml
     vars:
-      vm_name_prefix: "{{ ocp_cluster_name }}-bootstrap"
+      vm_name_prefix: "{{ bootstrap_vm_name_prefix }}"
+      vm_index: "{{ bootstrap_vm_name_index }}"
       number_of_vms: 1
       cpus: "{{ ocp_master_vm_cpus }}"
       memory: "{{ ocp_master_vm_memory }}"
@@ -32,7 +33,8 @@
   - name: create master vms
     import_tasks: create_ovirt_vms.yaml 
     vars:
-      vm_name_prefix: "{{ ocp_cluster_name }}-master"
+      vm_name_prefix: "{{ master_vm_name_prefix }}"
+      vm_index: "{{ master_vm_name_index }}"
       number_of_vms: "{{ ocp_master_vm_count }}"
       cpus: "{{ ocp_master_vm_cpus }}"
       memory: "{{ ocp_master_vm_memory }}"
@@ -42,7 +44,8 @@
   - name: create worker vms
     import_tasks: create_ovirt_vms.yaml
     vars:
-      vm_name_prefix: "{{ ocp_cluster_name }}-worker"
+      vm_name_prefix: "{{ worker_vm_name_prefix }}"
+      vm_index: "{{ worker_vm_name_index }}"
       number_of_vms: "{{ ocp_worker_vm_count }}"
       cpus: "{{ ocp_worker_vm_cpus }}"
       memory: "{{ ocp_worker_vm_memory }}"
