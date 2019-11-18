@@ -68,13 +68,13 @@
   - name: Power ON master vms
     ovirt_vm:
       state: running
-      name: "{{ master_vm_name_prefix }}{{ item + master_vm_name_offset|int }}"
+      name: "{{ master_vm_name_prefix }}{{ item|int + master_vm_name_offset|int }}"
     with_sequence: count={{ ocp_master_vm_count }}
 
   - name: Power ON worker vms
     ovirt_vm:
       state: running
-      name: "{{ worker_vm_name_prefix }}{{ item + worker_vm_name_offset|int }}"
+      name: "{{ worker_vm_name_prefix }}{{ item|int + worker_vm_name_offset|int }}"
     with_sequence: count={{ ocp_worker_vm_count }}
 
 - name: Wait for OpenShift installation to complete
