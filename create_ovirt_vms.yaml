@@ -2,7 +2,7 @@
 - name: Create VM {{ vm_name_prefix }}{{ item }}
   ovirt_vm:
     auth: "{{ ovirt_auth }}"
-    name: "{{ vm_name_prefix }}{{ item }}"
+    name: "{{ vm_name_prefix }}{{ item + vm_offset | int }}"
     cluster: "{{ cluster }}"
     memory: "{{ memory }}"
     cpu_cores: "{{ cpus }}"
@@ -21,7 +21,7 @@
 
 - name: Add new VM into Ansible inventory
   add_host:
-    hostname: "{{ vm_name_prefix }}{{ item }}"
+    hostname: "{{ vm_name_prefix }}{{ item + vm_offset | int }}"
     groups: "{{ node_role }}"
     ansible_host: "{{ ip_addresses[item | int - 1] }}"
     ansible_user: core
@@ -31,7 +31,7 @@
   ovirt_disk:
     auth: "{{ ovirt_auth }}"
     bootable: yes
-    vm_name: "{{ vm_name_prefix }}{{ item }}"
+    vm_name: "{{ vm_name_prefix }}{{ item + vm_offset | int }}"
     name: "{{ vm_name_prefix }}{{ item }}"
     size: "{{ vm_disk_size }}"
     storage_domain: "{{ vm_storage_domain }}"
@@ -44,6 +44,6 @@
     name: "{{ vm_tag }}"
     state: attached
     vms:
-      - "{{ vm_name_prefix }}{{ item }}"
+      - "{{ vm_name_prefix }}{{ item + vm_offset | int }}"
   with_sequence: count={{ number_of_vms }}
   when: vm_tag is defined
