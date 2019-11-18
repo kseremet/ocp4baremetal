@@ -24,14 +24,14 @@
   - name: update host dnsmasq for dhcp options to fix ips
     import_tasks: update_pxeboot_dnsmasq.yaml
     vars:
-      vm_name: "{{ ocp_cluster_name }}-bootstrap1"
+      vm_name: "{{ bootstrap_vm_name_prefix }}{{ 1 + bootstrap_vm_name_offset|int }}"
       ign_type: bootstrap
       vmip: "{{ bootstrap_ip_addresses[0] }}"
 
   - name: update host dnsmasq for dhcp options to fix ips
     include_tasks: update_pxeboot_dnsmasq.yaml
     vars:
-      vm_name: "{{ ocp_cluster_name }}-master{{ item }}"
+      vm_name: "{{ master_vm_name_prefix }}{{ item + master_vm_name_offset|int }}"
       ign_type: master
       vmip: "{{master_ip_addresses[ item | int-1 ]}}"
     with_sequence: count={{ ocp_master_vm_count }}
@@ -39,7 +39,7 @@
   - name: update host dnsmasq for dhcp options to fix ips
     include_tasks: update_pxeboot_dnsmasq.yaml
     vars:
-      vm_name: "{{ ocp_cluster_name }}-worker{{ item }}"
+      vm_name: "{{ worker_vm_name_prefix }}{{ item + worker_vm_name_offset|int }}"
       ign_type: worker
       vmip: "{{worker_ip_addresses[ item | int-1 ]}}"
     with_sequence: count={{ ocp_worker_vm_count }}
