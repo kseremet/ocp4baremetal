@@ -11,9 +11,9 @@ otherinstall_dir: install_dir
 bootstrap_vm_name_prefix: "{{ ocp_cluster_name }}-bootstrap"
 master_vm_name_prefix: "{{ ocp_cluster_name }}-master"
 worker_vm_name_prefix: "{{ ocp_cluster_name }}-worker"
-bootstrap_vm_name_offset: 0
-master_vm_name_offset: 0
-worker_vm_name_offset: 0
+bootstrap_vm_name_offset: "0"
+master_vm_name_offset: "0"
+worker_vm_name_offset: "0"
 
 network_utility_vm_template: CentOS-7-x86_64-1901
 network_utility_vm_memory: 4GiB
