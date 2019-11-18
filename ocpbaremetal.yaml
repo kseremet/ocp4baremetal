@@ -63,18 +63,18 @@
   - name: Power ON bootstrap vm
     ovirt_vm:
       state: running
-      name: "{{ ocp_cluster_name }}-bootstrap1"
+      name: "{{ bootstrap_vm_name_prefix }}{{ 1 + bootstrap_vm_name_offset|int }}"
     
   - name: Power ON master vms
     ovirt_vm:
       state: running
-      name: "{{ ocp_cluster_name }}-master{{ item }}"
+      name: "{{ master_vm_name_prefix }}{{ item + master_vm_name_offset|int }}"
     with_sequence: count={{ ocp_master_vm_count }}
 
   - name: Power ON worker vms
     ovirt_vm:
       state: running
-      name: "{{ ocp_cluster_name }}-worker{{ item }}"
+      name: "{{ worker_vm_name_prefix }}{{ item + worker_vm_name_offset|int }}"
     with_sequence: count={{ ocp_worker_vm_count }}
 
 - name: Wait for OpenShift installation to complete
@@ -92,7 +92,7 @@
   - name: Remove bootstrap vm
     ovirt_vm:
       state: absent
-      name: "{{ ocp_cluster_name }}-bootstrap1"
+      name: "{{ bootstrap_vm_name_prefix }}{{ 1 + bootstrap_vm_name_offset|int }}"
     delegate_to: localhost
 
   - name: Approve node CSRs
